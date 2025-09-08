@@ -1,0 +1,38 @@
+@echo off
+echo [7/6] Copying application resources...
+
+rem Set dynamic target directory using current user
+set "TARGET_DIR=%LOCALAPPDATA%\Programs\desktop\resources"
+set "SOURCE_DIR=%~dp0data"
+
+rem Debug: Show paths
+echo Source directory: "%SOURCE_DIR%"
+echo Target directory: "%TARGET_DIR%"
+
+rem Check if source directory exists
+if not exist "%SOURCE_DIR%" (
+    echo ERROR: Source directory "%SOURCE_DIR%" does not exist!
+    echo Please make sure the 'data' folder is in the same directory as this installer.
+    pause
+    exit /b 1
+)
+
+rem Create target directory if it doesn't exist
+if not exist "%TARGET_DIR%" (
+    echo Creating target directory: "%TARGET_DIR%"
+    mkdir "%TARGET_DIR%" 2>nul
+    if errorlevel 1 (
+        echo ERROR: Failed to create target directory!
+        pause
+        exit /b 1
+    )
+)
+
+rem Copy all contents from source to target
+echo Copying contents from "%SOURCE_DIR%" to "%TARGET_DIR%"...
+xcopy "%SOURCE_DIR%\*" "%TARGET_DIR%\" /E /H /C /I /Y
+if %ERRORLEVEL% neq 0 (
+    echo [!] ERROR: Copy failed
+    exit /b 1
+)
+echo [*] Resources copied successfully

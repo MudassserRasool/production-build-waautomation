@@ -1,0 +1,13 @@
+Standalone Fingerprint Browser Guide
+
+=> Installation Steps:
+
+1. Unzip the file downloaded file. 
+
+1. Run the "installer.exe" file, it will automatically install the required files and desktop app.
+
+2. Open the desktop app and click the "Login" button.
+3. A browser window will open for login. Create or login your account. 
+
+4. If the credentials are correct, (Popup will appear on the top of browser, Click on "Open") it will return to the desktop app.
+
