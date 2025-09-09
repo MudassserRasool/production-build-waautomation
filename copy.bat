@@ -28,10 +28,30 @@ if not exist "%TARGET_DIR%" (
     )
 )
 
-rem Copy all contents from source to target
-echo Copying contents from "%SOURCE_DIR%" to "%TARGET_DIR%"...
-xcopy "%SOURCE_DIR%\*" "%TARGET_DIR%\" /E /H /C /I /Y
-if %ERRORLEVEL% neq 0 (
+rem Copy all contents from source to target, excluding browser-profiles folder
+echo Copying contents from "%SOURCE_DIR%" to "%TARGET_DIR%" (excluding browser-profiles)...
+
+rem First copy all files in the root of source directory
+echo Copying files...
+for %%f in ("%SOURCE_DIR%\*.*") do (
+    copy "%%f" "%TARGET_DIR%\" >nul 2>&1
+)
+
+rem Then copy all directories except browser-profiles
+echo Copying directories...
+for /d %%d in ("%SOURCE_DIR%\*") do (
+    if /i not "%%~nxd"=="browser-profiles" (
+        echo Copying directory: %%~nxd
+        xcopy "%%d" "%TARGET_DIR%\%%~nxd\" /E /H /C /I /Y
+    ) else (
+        echo Skipping directory: %%~nxd
+    )
+)
+
+set "COPY_ERROR=0"
+
+rem Check if the copy operation was successful
+if %COPY_ERROR% neq 0 (
     echo [!] ERROR: Copy failed
     exit /b 1
 )
