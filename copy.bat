@@ -57,3 +57,28 @@ if %COPY_ERROR% neq 0 (
 )
 echo [*] Resources copied successfully
 
+rem Restore browser-profiles folder if backup exists
+set "BROWSER_PROFILES_BACKUP=%LOCALAPPDATA%\Temp\browser-profiles-backup"
+set "BROWSER_PROFILES_DESTINATION=%TARGET_DIR%\browser-profiles"
+
+echo Checking for browser-profiles backup...
+if exist "%BROWSER_PROFILES_BACKUP%" (
+    echo Found browser-profiles backup. Restoring...
+    
+    :: Remove any existing browser-profiles folder in destination first
+    if exist "%BROWSER_PROFILES_DESTINATION%" (
+        echo Removing existing browser-profiles folder...
+        rmdir /s /q "%BROWSER_PROFILES_DESTINATION%"
+    )
+    
+    :: Move (cut) the backup folder back to destination
+    move "%BROWSER_PROFILES_BACKUP%" "%BROWSER_PROFILES_DESTINATION%"
+    if %errorlevel% equ 0 (
+        echo [*] Successfully restored browser-profiles folder
+    ) else (
+        echo [!] Warning: Failed to restore browser-profiles folder
+    )
+) else (
+    echo No browser-profiles backup found to restore.
+)
+

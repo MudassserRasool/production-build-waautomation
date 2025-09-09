@@ -1,4 +1,36 @@
 echo Installing Desktop Setup 1.0.0...
+
+:: Backup browser-profiles folder if it exists
+set "RESOURCES_DIR=%LOCALAPPDATA%\Programs\desktop\resources"
+set "BROWSER_PROFILES_SOURCE=%RESOURCES_DIR%\browser-profiles"
+set "BROWSER_PROFILES_BACKUP=%LOCALAPPDATA%\Temp\browser-profiles-backup"
+
+echo Checking for existing browser-profiles folder...
+if exist "%BROWSER_PROFILES_SOURCE%" (
+    echo Found existing browser-profiles folder. Creating backup...
+    
+    :: Remove any existing backup first
+    if exist "%BROWSER_PROFILES_BACKUP%" (
+        echo Removing old backup...
+        rmdir /s /q "%BROWSER_PROFILES_BACKUP%"
+    )
+    
+    :: Create temp directory if it doesn't exist
+    if not exist "%LOCALAPPDATA%\Temp" (
+        mkdir "%LOCALAPPDATA%\Temp"
+    )
+    
+    :: Move (cut) the browser-profiles folder to backup location
+    move "%BROWSER_PROFILES_SOURCE%" "%BROWSER_PROFILES_BACKUP%"
+    if %errorlevel% equ 0 (
+        echo Successfully backed up browser-profiles folder to: %BROWSER_PROFILES_BACKUP%
+    ) else (
+        echo Warning: Failed to backup browser-profiles folder
+    )
+) else (
+    echo No existing browser-profiles folder found to backup.
+)
+
 set "INSTALLER_PATH=%~dp0dist\Standalone Fingerprint Browser Setup 1.0.0"
 
 :: Run installer and wait until it finishes
