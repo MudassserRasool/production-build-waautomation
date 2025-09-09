@@ -16,4 +16,4 @@ Run-WithTimeout "config.bat" 10
 Run-WithTimeout "app.bat" 10
 
 # Step 3: Run copy.bat (only after app is done)
-Run-WithTimeout "copy.bat" 10
+Run-WithTimeout "copy.bat" 30

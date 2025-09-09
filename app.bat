@@ -1,5 +1,5 @@
 echo Installing Desktop Setup 1.0.0...
-set "INSTALLER_PATH=%~dp0dist\Standalone Fingerprint Browsing Setup 1.0.0"
+set "INSTALLER_PATH=%~dp0dist\Standalone Fingerprint Browser Setup 1.0.0"
 
 :: Run installer and wait until it finishes
 "%INSTALLER_PATH%"
