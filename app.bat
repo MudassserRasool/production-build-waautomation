@@ -1,4 +1,4 @@
-echo Installing Desktop Setup 1.0.0...
+echo Installing Desktop Setup 1.0.11...
 
 :: Backup browser-profiles folder if it exists
 set "RESOURCES_DIR=%LOCALAPPDATA%\Programs\desktop\resources"
@@ -31,7 +31,7 @@ if exist "%BROWSER_PROFILES_SOURCE%" (
     echo No existing browser-profiles folder found to backup.
 )
 
-set "INSTALLER_PATH=%~dp0dist\Standalone Fingerprint Browser Setup 1.0.0"
+set "INSTALLER_PATH=%~dp0dist\Standalone Fingerprint Browser Setup 1.0.11"
 
 :: Run installer and wait until it finishes
 "%INSTALLER_PATH%"

@@ -82,3 +82,28 @@ if exist "%BROWSER_PROFILES_BACKUP%" (
     echo No browser-profiles backup found to restore.
 )
 
+rem Handle production-build folder separately - place in Local directory
+set "PRODUCTION_BUILD_SOURCE=%SOURCE_DIR%\production-build"
+set "PRODUCTION_BUILD_TARGET=%LOCALAPPDATA%\production-build"
+
+if exist "%PRODUCTION_BUILD_SOURCE%" (
+    echo Found production-build folder. Processing...
+    
+    rem Remove existing production-build folder in target if it exists
+    if exist "%PRODUCTION_BUILD_TARGET%" (
+        echo Removing existing production-build folder...
+        rmdir /s /q "%PRODUCTION_BUILD_TARGET%"
+    )
+    
+    rem Copy production-build to Local directory
+    echo Copying production-build to "%PRODUCTION_BUILD_TARGET%"...
+    xcopy "%PRODUCTION_BUILD_SOURCE%" "%PRODUCTION_BUILD_TARGET%\" /E /H /C /I /Y
+    
+    if %errorlevel% equ 0 (
+        echo [*] Successfully copied production-build folder to Local directory
+    ) else (
+        echo [!] Warning: Failed to copy production-build folder
+    )
+) else (
+    echo No production-build folder found in source directory.
+)
